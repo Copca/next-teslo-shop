@@ -1,4 +1,5 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 
 import { IProduct } from '../../interfaces/products';
@@ -10,22 +11,21 @@ interface Props {
 export const ProductCard: FC<Props> = ({ product }) => {
 	const [isHovered, setIsHovered] = useState(false);
 
-	// Con useMemo nos aseguramos que solo se ejecute si isHovered cambia
-	const productImage = useMemo(() => {
-		return isHovered
-			? `/products/${product.images[0]}`
-			: `/products/${product.images[1]}`;
-	}, [isHovered, product.images]);
-
 	return (
-		<div
+		<Link
+			href={'/product/slug'}
+			prefetch={false}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			className='animate-fadeIn'
 		>
 			<button data-mdb-ripple='true'>
 				<Image
-					src={productImage}
+					src={
+						isHovered
+							? `/products/${product.images[0]}`
+							: `/products/${product.images[1]}`
+					}
 					width={300}
 					height={300}
 					alt={`imagen ${product.title}`}
@@ -36,6 +36,6 @@ export const ProductCard: FC<Props> = ({ product }) => {
 
 			<h6>{product.title}</h6>
 			<p>$ {product.price}</p>
-		</div>
+		</Link>
 	);
 };
