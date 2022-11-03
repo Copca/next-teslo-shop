@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { initialData } from '../../database/products';
 
 import ShopLayout from '../../components/layouts/ShopLayout';
-import { ProductSlide } from '../../components/products';
+import { ProductSlide, SizeSelector } from '../../components/products';
 import { Counter } from '../../components/ui';
 
 const product = initialData.products[0];
@@ -20,14 +20,9 @@ const ProductPage: NextPage = () => {
 					<h1 className='text-2xl font-bold'>{product.title}</h1>
 					<p className='text-xl mb-8'>$ {product.price}</p>
 
-					<p>Cantidad: </p>
 					<Counter />
 
-					<ul className='flex justify-center space-x-8 font-bold'>
-						{product.sizes.map((size) => (
-							<li key={size}>{size}</li>
-						))}
-					</ul>
+					<SizeSelector sizes={product.sizes} />
 
 					<button
 						className='btn bg-blue-500 hover:bg-blue-600 w-full my-4 rounded-full'
