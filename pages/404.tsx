@@ -8,12 +8,12 @@ const Error404: NextPage = () => {
 			pageDescription={'No hay nada que mostrar aquí'}
 		>
 			<div className='container flex-1 flex flex-col justify-center items-center'>
-				<h6 className='text-5xl'>
+				<h1 className='text-5xl'>
 					404 |
 					<span className='ml-2 text-xl align-middle'>
 						Página no encontrada
 					</span>
-				</h6>
+				</h1>
 			</div>
 		</ShopLayout>
 	);
