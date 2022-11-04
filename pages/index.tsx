@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 
 import { initialData } from '../database/products';
 
-import ShopLayout from '../components/layouts/ShopLayout';
+import { ShopLayout } from '../components/layouts/';
 import { SideMenu } from '../components/ui';
 import { ProductList } from '../components/products';
 

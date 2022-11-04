@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import ShopLayout from '../components/layouts/ShopLayout';
+import { ShopLayout } from '../components/layouts/';
 
 const Error404: NextPage = () => {
 	return (

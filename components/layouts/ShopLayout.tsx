@@ -9,7 +9,7 @@ interface Props {
 	imageFullUrl?: string;
 }
 
-const ShopLayout: FC<PropsWithChildren<Props>> = ({
+export const ShopLayout: FC<PropsWithChildren<Props>> = ({
 	tittle,
 	pageDescription,
 	imageFullUrl,
@@ -36,5 +36,3 @@ const ShopLayout: FC<PropsWithChildren<Props>> = ({
 		</div>
 	);
 };
-
-export default ShopLayout;

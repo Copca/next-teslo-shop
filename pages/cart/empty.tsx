@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { MdOutlineRemoveShoppingCart } from 'react-icons/md';
 
-import ShopLayout from '../../components/layouts/ShopLayout';
+import { ShopLayout } from '../../components/layouts';
 
 const EmptyPage: NextPage = () => {
 	return (
