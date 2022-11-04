@@ -5,7 +5,7 @@ interface Props {}
 
 export const Counter: FC<Props> = () => {
 	return (
-		<>
+		<div>
 			<p className='mb-1'>Cantidad: </p>
 
 			<div className='flex items-center space-x-4 mb-8'>
@@ -19,6 +19,6 @@ export const Counter: FC<Props> = () => {
 					<AiOutlinePlusCircle className='text-2xl' />
 				</button>
 			</div>
-		</>
+		</div>
 	);
 };
