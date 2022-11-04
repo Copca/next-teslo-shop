@@ -31,6 +31,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
 								alt={product.title}
 								width={200}
 								height={200}
+								priority
 								className='inline-block shadow'
 							/>
 						</Link>
