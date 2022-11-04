@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 import Head from 'next/head';
 
-import { Navbar } from '../ui';
+import { Navbar, SideMenu } from '../ui';
 
 interface Props {
 	tittle: string;
@@ -31,6 +31,8 @@ export const ShopLayout: FC<PropsWithChildren<Props>> = ({
 			{/* TODO: Sidebar */}
 
 			<main className='flex-1 flex flex-col'>{children}</main>
+
+			<SideMenu />
 
 			<footer>{/* TODO: Footer */}</footer>
 		</div>
