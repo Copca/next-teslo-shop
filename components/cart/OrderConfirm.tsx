@@ -1,6 +1,12 @@
+import { FC } from 'react';
 import Link from 'next/link';
+import { MdCreditScore } from 'react-icons/md';
 
-export const OrderConfirm = () => {
+interface Props {
+	pay?: boolean;
+}
+
+export const OrderConfirm: FC<Props> = ({ pay = false }) => {
 	return (
 		<div className='p-4'>
 			<h2 className='text-xl'>Resumen (3) Producto</h2>
@@ -48,12 +54,23 @@ export const OrderConfirm = () => {
 				<p>$ 86.25</p>
 			</div>
 
-			<Link
-				href={'#'}
-				className='btn bg-blue-500 hover:bg-blue-600 rounded-full w-full mt-4'
-			>
-				Confirmar Orden
-			</Link>
+			{pay ? (
+				<>
+					<h1 className='text-xl font-bold my-8'>Pagar:</h1>
+
+					<div className='inline-flex items-center text-green-500 font-bold border-2 border-green-500 rounded-full px-3 py-2 space-x-3 mb-4'>
+						<MdCreditScore className='text-xl' />
+						<p>Pagado</p>
+					</div>
+				</>
+			) : (
+				<Link
+					href={'#'}
+					className='btn bg-blue-500 hover:bg-blue-600 rounded-full w-full mt-4'
+				>
+					Confirmar Orden
+				</Link>
+			)}
 		</div>
 	);
 };
