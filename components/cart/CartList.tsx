@@ -42,7 +42,17 @@ export const CartList: FC<Props> = ({ editable = false }) => {
 							<h4 className='text-slate-800 text-lg font-bold mb-2'>
 								{product.title}
 							</h4>
-							{editable && <Counter />}
+
+							<p>
+								Talla:
+								<span className='font-bold ml-3'>{product.sizes[2]}</span>
+							</p>
+
+							{editable ? (
+								<Counter />
+							) : (
+								<p className='text-xl mt-4'>3 Productos </p>
+							)}
 						</div>
 
 						<div className='text-center'>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 export const OrderSumary = () => {
 	return (
 		<div className='p-4'>
-			<h2>Orden</h2>
+			<h2 className='text-xl'>Orden</h2>
 			<hr className='mb-8' />
 
 			<div className='flex justify-between'>
