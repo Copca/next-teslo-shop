@@ -1,0 +1,10 @@
+services:
+    teslodb:
+        container_name: teslo-database
+        image: mongo:5.0.0
+        ports:
+            - 27017:27017
+        volumes:
+            - ./mongo:/data/db
+# port mi pc 27017 : port container
+# volumen carpeta ./mongo : carpeta en Mongo(default) /data/db
