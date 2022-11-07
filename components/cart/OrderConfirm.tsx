@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Link from 'next/link';
-import { MdCreditScore } from 'react-icons/md';
+import { Chip } from '../ui';
 
 interface Props {
 	pay?: boolean;
@@ -58,10 +58,7 @@ export const OrderConfirm: FC<Props> = ({ pay = false }) => {
 				<>
 					<h1 className='text-xl font-bold my-8'>Pagar:</h1>
 
-					<div className='inline-flex items-center text-green-500 font-bold border-2 border-green-500 rounded-full px-3 py-2 space-x-3 mb-4'>
-						<MdCreditScore className='text-xl' />
-						<p>Pagado</p>
-					</div>
+					<Chip pagado />
 				</>
 			) : (
 				<Link
