@@ -14,7 +14,7 @@ const OrderPage: NextPage = () => {
 			<div className='container'>
 				<h1 className='text-2xl mb-8'>Orden ABC123</h1>
 
-				<Chip pagado />
+				<Chip pagado className='mb-4' />
 
 				<div className='flex flex-col md:flex-row items-start gap-8'>
 					<div className='w-full md:w-3/5'>
