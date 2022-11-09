@@ -39,7 +39,8 @@ const productSchema = new Schema(
 	}
 );
 
-// TODO: Crear indice
+// * Creamos el indice de busqueda
+productSchema.index({ title: 'text', tags: 'text' });
 
 const Product: Model<IProduct> =
 	mongoose.models.Product || model('Product', productSchema);
