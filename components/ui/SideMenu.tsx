@@ -34,32 +34,50 @@ export const SideMenu = () => {
 
 					<div className='mt-4 space-y-12'>
 						<nav className='space-y-4 border-b border-gray-400 pb-4'>
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='#'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<BiUserCircle className='text-2xl' />
 								Perfil
 							</Link>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='#'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<TiTicket className='text-2xl' />
 								Mis ordenes
 							</Link>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='/category/men'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<AiOutlineMan className='text-2xl' />
 								Hombres
 							</Link>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='/category/women'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<AiOutlineWoman className='text-2xl' />
 								Mujeres
 							</Link>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='/category/kids'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<FaChild className='text-2xl' />
 								Niños
 							</Link>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='#'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<BiExit className='text-2xl' />
 								Salir
 							</Link>
@@ -68,22 +86,34 @@ export const SideMenu = () => {
 						<nav className='space-y-4'>
 							<h6 className='text-xl'>Admin Panel</h6>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='#'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<MdOutlineDashboard className='text-2xl' />
 								Dashboard
 							</Link>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='#'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<GiClothes className='text-2xl' />
 								Productos
 							</Link>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='#'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<TiTicket className='text-2xl' />
 								Ordenes
 							</Link>
 
-							<Link href='#' className='flex items-center gap-2'>
+							<Link
+								href='#'
+								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+							>
 								<FaUsers className='text-2xl' />
 								Usuarios
 							</Link>
