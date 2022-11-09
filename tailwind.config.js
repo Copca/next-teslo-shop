@@ -21,12 +21,17 @@ module.exports = {
 		},
 		extend: {
 			animation: {
-				fadeIn: 'fadeIn 1s 1'
+				fadeIn: 'fadeIn 1s 1',
+				fadeOut: 'fadeOut 1s 1'
 			},
 			keyframes: {
 				fadeIn: {
 					'0%': { opacity: 0 },
 					'100%': { opacity: 1 }
+				},
+				fadeOut: {
+					'0%': { opacity: 1 },
+					'100%': { opacity: 0 }
 				}
 			}
 		}

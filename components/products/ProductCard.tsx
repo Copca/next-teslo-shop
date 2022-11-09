@@ -30,7 +30,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
 					height={300}
 					alt={`imagen ${product.title}`}
 					priority
-					className='rounded-md shadow'
+					className={`rounded-md shadow ${isHovered && 'animate-fadeIn'}`}
 				/>
 			</button>
 

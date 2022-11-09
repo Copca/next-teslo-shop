@@ -9,8 +9,6 @@ import { Loading } from '../components/ui';
 const HomePage: NextPage = () => {
 	const { products, isLoading } = useProducts('/products');
 
-	console.log(isLoading);
-
 	return (
 		<ShopLayout
 			tittle={'Teslo-Shop - Home'}
