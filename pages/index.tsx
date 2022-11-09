@@ -1,11 +1,16 @@
 import { NextPage } from 'next';
 
-import { initialData } from '../database/products';
+import { useProducts } from '../hooks/useProducts';
 
 import { ShopLayout } from '../components/layouts/';
 import { ProductList } from '../components/products';
+import { Loading } from '../components/ui';
 
-const Home: NextPage = () => {
+const HomePage: NextPage = () => {
+	const { products, isLoading } = useProducts('/products');
+
+	console.log(isLoading);
+
 	return (
 		<ShopLayout
 			tittle={'Teslo-Shop - Home'}
@@ -15,10 +20,10 @@ const Home: NextPage = () => {
 				<h1 className='text-2xl font-bold'>Tienda</h1>
 				<h2>Todos los productos</h2>
 
-				<ProductList products={initialData.products as any} />
+				{isLoading ? <Loading /> : <ProductList products={products} />}
 			</div>
 		</ShopLayout>
 	);
 };
 
-export default Home;
+export default HomePage;
