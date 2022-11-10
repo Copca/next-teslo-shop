@@ -13,7 +13,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
 
 	return (
 		<Link
-			href={'/product/slug'}
+			href={`/product/${product.slug}`}
 			prefetch={false}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
