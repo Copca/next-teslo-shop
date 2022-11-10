@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { CartBtn } from './CartBtn';
 
-const categories = ['men', 'women', 'kids'];
-
 export const Navbar = () => {
 	const router = useRouter();
 
@@ -67,6 +65,7 @@ export const Navbar = () => {
 						data-bs-toggle='offcanvas'
 						data-bs-target='#offcanvasRight'
 						aria-controls='offcanvasRight'
+						className='outline-none'
 					>
 						Menú
 					</button>
