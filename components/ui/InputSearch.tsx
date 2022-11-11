@@ -1,25 +1,54 @@
-import { useState, KeyboardEvent, useRef, LegacyRef } from 'react';
+import { useState, KeyboardEvent, useRef, FC, useContext } from 'react';
 import { useRouter } from 'next/router';
-import { BiSearch } from 'react-icons/bi';
+import { BiSearch, BiX } from 'react-icons/bi';
 
-export const InputSearch = () => {
+import { UiContext } from '../../context/ui/';
+
+interface Props {
+	className?: string;
+	icon?: 'search' | 'close';
+	color?: 'light' | 'dark';
+}
+
+export const InputSearch: FC<Props> = ({ className, icon, color }) => {
+	const { closeInputSearch } = useContext(UiContext);
 	const refBtn = useRef<HTMLButtonElement>(null);
 	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState('');
 
-	const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === 'Enter') {
+	// Redireciona con el término de búsqueda
+	const navigate = () => {
+		if (searchTerm.length !== 0) {
 			// Simulamos el click del boton oculto
 			refBtn.current!.click();
+
 			// Reseteamos el searchTerm
 			setSearchTerm('');
+			// cerramos el inputSearch
+			closeInputSearch();
 
 			router.push(`/search/${searchTerm}`);
 		}
 	};
 
+	// Redireccionamiento con la tecla enter
+	const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			navigate();
+		}
+	};
+
+	// Redireccionamiento con click en el icono search
+	const handleSearch = () => {
+		navigate();
+	};
+
 	return (
-		<div className='flex justify-center border-b border-white mb-12 relative'>
+		<div
+			className={`flex justify-center border-b relative animate-fadeIn ${
+				color === 'light' ? 'border-white' : 'border-slate-200'
+			} ${className}`}
+		>
 			{/* Boton oculto para cerrar el menu */}
 			<button
 				type='button'
@@ -33,13 +62,38 @@ export const InputSearch = () => {
 			<input
 				type='text'
 				placeholder='Buscar...'
-				className='w-full bg-transparent text-white placeholder:text-slate-200 outline-none px-3 peer'
+				className={`w-full bg-transparent outline-none px-3 peer ${
+					color === 'light'
+						? 'text-white placeholder:text-slate-200'
+						: 'text-slate-800 placeholder:text-slate-400'
+				}`}
 				value={searchTerm}
 				onChange={(e) => setSearchTerm(e.target.value)}
 				onKeyDown={handleKeyDown}
 			/>
-			<BiSearch className='text-white text-2xl' />
-			<div className='absolute top-full transition-all duration-300 bg-slate-400 w-0 h-0.5 peer-focus:w-full'></div>
+
+			{icon === 'search' ? (
+				<BiSearch
+					className={`text-2xl cursor-pointer ${
+						color === 'light' ? 'text-white' : 'text-slate-800'
+					}`}
+					onClick={handleSearch}
+				/>
+			) : (
+				<BiX
+					className={`text-2xl cursor-pointer ${
+						color === 'light' ? 'text-white' : 'text-slate-800'
+					}`}
+					onClick={closeInputSearch}
+				/>
+			)}
+
+			{/* Animación del borde en el input */}
+			<div
+				className={`absolute top-full transition-all duration-300  w-0 h-0.5 peer-focus:w-full ${
+					color === 'light' ? 'bg-slate-400' : 'bg-black'
+				}`}
+			></div>
 		</div>
 	);
 };

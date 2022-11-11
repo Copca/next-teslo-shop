@@ -30,9 +30,9 @@ export const SideMenu = () => {
 				</div>
 
 				<div className='offcanvas-body flex-grow overflow-y-auto p-8'>
-					<InputSearch />
+					<InputSearch icon='search' color='light' />
 
-					<div className='mt-4 space-y-12'>
+					<div className='space-y-12 mt-12'>
 						<nav className='space-y-4 border-b border-gray-400 pb-4'>
 							<Link
 								href='#'
