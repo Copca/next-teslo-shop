@@ -17,7 +17,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
 			prefetch={false}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
-			className='animate-fadeIn'
+			className='animate-fadeIn flex flex-col items-center'
 		>
 			<button data-mdb-ripple='true'>
 				<Image
@@ -34,8 +34,10 @@ export const ProductCard: FC<Props> = ({ product }) => {
 				/>
 			</button>
 
-			<h6>{product.title}</h6>
-			<p>$ {product.price}</p>
+			<div className='text-left px-4'>
+				<h6>{product.title}</h6>
+				<p>$ {product.price}</p>
+			</div>
 		</Link>
 	);
 };
