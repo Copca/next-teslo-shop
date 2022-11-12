@@ -73,6 +73,7 @@ export const InputSearch: FC<Props> = ({ className, icon, color }) => {
 			/>
 
 			{icon === 'search' ? (
+				// Visible en SideMenu
 				<BiSearch
 					className={`text-2xl cursor-pointer ${
 						color === 'light' ? 'text-white' : 'text-slate-800'
@@ -80,6 +81,7 @@ export const InputSearch: FC<Props> = ({ className, icon, color }) => {
 					onClick={handleSearch}
 				/>
 			) : (
+				// Visible en Navbar
 				<BiX
 					className={`text-2xl cursor-pointer ${
 						color === 'light' ? 'text-white' : 'text-slate-800'
