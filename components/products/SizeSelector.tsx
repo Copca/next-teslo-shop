@@ -12,11 +12,8 @@ export const SizeSelector: FC<Props> = ({ selectedSize, sizes }) => {
 			{sizes.map((size) => (
 				<button
 					key={size}
-					className={
-						selectedSize === size
-							? 'bg-slate-800 text-white px-2 py-0.5 rounded'
-							: 'font-bold'
-					}
+					className={`hover:bg-slate-200 p-1 rounded w-9
+						${selectedSize === size ? 'bg-slate-800 text-white px-2 py-0.5 rounded' : 'font-bold'}`}
 				>
 					{size}
 				</button>

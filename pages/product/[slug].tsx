@@ -4,11 +4,11 @@
  * La mejor opción es genera SSG Static Site Generation con ISR (reavalidate) usando GetStaticPaths y GetStaticProps
  * Esta página se genera en buid time
  */
-
+import { useState } from 'react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
 import { dbProducts } from '../../database';
-import { IProduct } from '../../interfaces';
+import { ICartProduct, IProduct } from '../../interfaces';
 
 import { ShopLayout } from '../../components/layouts';
 import { ProductSlide, SizeSelector } from '../../components/products';
@@ -19,6 +19,17 @@ interface Props {
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
+	const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
+		_id: product._id,
+		images: product.images[0],
+		price: product.price,
+		sizes: undefined,
+		slug: product.slug,
+		title: product.title,
+		gender: product.gender,
+		quantity: 1
+	});
+
 	return (
 		<ShopLayout tittle={product.title} pageDescription={product.description}>
 			<div className='container flex gap-8 text-slate-800'>
@@ -32,18 +43,25 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
 					<Counter />
 
-					<SizeSelector sizes={product.sizes} />
+					<SizeSelector
+						sizes={product.sizes}
+						selectedSize={tempCartProduct.sizes}
+					/>
 
-					<button
-						className='btn bg-blue-500 hover:bg-blue-600 w-full my-4 rounded-full'
-						data-mdb-ripple='true'
-					>
-						Agregar al carrito
-					</button>
-
-					<div className='text-red-500 font-bold border uppercase text-xs border-red-500 rounded-full text-center py-2 my-4'>
-						No hay disponibles
-					</div>
+					{product.inStock ? (
+						<button
+							className='btn bg-blue-500 hover:bg-blue-600 w-full my-4 rounded-full'
+							data-mdb-ripple='true'
+						>
+							{tempCartProduct.sizes
+								? 'Agregar al carrito'
+								: 'Seleccione una talla'}
+						</button>
+					) : (
+						<div className='text-red-500 font-bold border uppercase text-xs border-red-500 rounded-full text-center py-2 my-4'>
+							No hay disponibles
+						</div>
+					)}
 
 					<div>
 						<h6 className='font-bold'>Descripción</h6>
