@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
 import { dbProducts } from '../../database';
-import { ICartProduct, IProduct } from '../../interfaces';
+import { ICartProduct, IProduct, ISize } from '../../interfaces';
 
 import { ShopLayout } from '../../components/layouts';
 import { ProductSlide, SizeSelector } from '../../components/products';
@@ -21,14 +21,21 @@ interface Props {
 const ProductPage: NextPage<Props> = ({ product }) => {
 	const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
 		_id: product._id,
-		images: product.images[0],
+		image: product.images[0],
 		price: product.price,
-		sizes: undefined,
+		size: undefined,
 		slug: product.slug,
 		title: product.title,
 		gender: product.gender,
 		quantity: 1
 	});
+
+	const onSelectedSize = (size: ISize) => {
+		setTempCartProduct({
+			...tempCartProduct,
+			size
+		});
+	};
 
 	return (
 		<ShopLayout tittle={product.title} pageDescription={product.description}>
@@ -45,7 +52,8 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
 					<SizeSelector
 						sizes={product.sizes}
-						selectedSize={tempCartProduct.sizes}
+						selectedSize={tempCartProduct.size}
+						onSeletedSize={onSelectedSize}
 					/>
 
 					{product.inStock ? (
@@ -53,7 +61,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 							className='btn bg-blue-500 hover:bg-blue-600 w-full my-4 rounded-full'
 							data-mdb-ripple='true'
 						>
-							{tempCartProduct.sizes
+							{tempCartProduct.size
 								? 'Agregar al carrito'
 								: 'Seleccione una talla'}
 						</button>
