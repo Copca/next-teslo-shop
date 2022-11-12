@@ -37,6 +37,17 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 		});
 	};
 
+	const onUpdatedQuantity = (quantity: number) => {
+		setTempCartProduct({
+			...tempCartProduct,
+			quantity
+		});
+	};
+
+	const onClickCarrito = () => {
+		console.log(tempCartProduct);
+	};
+
 	return (
 		<ShopLayout tittle={product.title} pageDescription={product.description}>
 			<div className='container flex gap-8 text-slate-800'>
@@ -48,7 +59,11 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 					<h1 className='text-2xl font-bold'>{product.title}</h1>
 					<p className='text-xl mb-8'>$ {product.price}</p>
 
-					<Counter />
+					<Counter
+						currentValue={tempCartProduct.quantity}
+						updatedQuantity={onUpdatedQuantity}
+						maxValue={product.inStock > 10 ? 10 : product.inStock}
+					/>
 
 					<SizeSelector
 						sizes={product.sizes}
@@ -60,6 +75,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 						<button
 							className='btn bg-blue-500 hover:bg-blue-600 w-full my-4 rounded-full'
 							data-mdb-ripple='true'
+							onClick={onClickCarrito}
 						>
 							{tempCartProduct.size
 								? 'Agregar al carrito'
