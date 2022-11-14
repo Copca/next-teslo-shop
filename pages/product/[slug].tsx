@@ -4,10 +4,12 @@
  * La mejor opción es genera SSG Static Site Generation con ISR (reavalidate) usando GetStaticPaths y GetStaticProps
  * Esta página se genera en buid time
  */
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 
 import { dbProducts } from '../../database';
+import { CartContext } from '../../context/';
 import { ICartProduct, IProduct, ISize } from '../../interfaces';
 
 import { ShopLayout } from '../../components/layouts';
@@ -19,6 +21,8 @@ interface Props {
 }
 
 const ProductPage: NextPage<Props> = ({ product }) => {
+	const router = useRouter();
+	const { addProduct } = useContext(CartContext);
 	const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
 		_id: product._id,
 		image: product.images[0],
@@ -44,8 +48,11 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 		});
 	};
 
-	const onClickCarrito = () => {
-		console.log(tempCartProduct);
+	const onAddProduct = () => {
+		if (!tempCartProduct.size) return;
+
+		addProduct(tempCartProduct);
+		// router.push('/cart');
 	};
 
 	return (
@@ -75,7 +82,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 						<button
 							className='btn bg-blue-500 hover:bg-blue-600 w-full my-4 rounded-full'
 							data-mdb-ripple='true'
-							onClick={onClickCarrito}
+							onClick={onAddProduct}
 						>
 							{tempCartProduct.size
 								? 'Agregar al carrito'
