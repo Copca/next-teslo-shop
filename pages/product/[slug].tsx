@@ -52,7 +52,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 		if (!tempCartProduct.size) return;
 
 		addProduct(tempCartProduct);
-		// router.push('/cart');
+		router.push('/cart');
 	};
 
 	return (
