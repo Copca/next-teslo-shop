@@ -73,8 +73,8 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 
 		// Si el producto ya esta en el carrito y se selecciona otro igual (talla) se actualiza la cantidad
 		const updatedProducts = state.cart.map((productState) => {
-			if (productState._id !== product._id) return product;
-			if (productState.size !== product.size) return product;
+			if (productState._id !== product._id) return productState;
+			if (productState.size !== product.size) return productState;
 
 			// Actualizar la cantidad
 			productState.quantity += product.quantity;
@@ -85,6 +85,14 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 		dispatch({ type: '[Cart] - Update Products in Cart', payload: updatedProducts });
 	};
 
+	const updateCartQuantity = (product: ICartProduct) => {
+		dispatch({ type: '[Cart] - Change Cart quantity', payload: product });
+	};
+
+	const removeCartProduct = (product: ICartProduct) => {
+		dispatch({ type: '[Cart] - Remove product in cart', payload: product });
+	};
+
 	return (
 		<CartContext.Provider
 			value={{
@@ -92,7 +100,9 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 				...state,
 
 				// Metodos
-				addProduct
+				addProduct,
+				updateCartQuantity,
+				removeCartProduct
 			}}
 		>
 			{children}

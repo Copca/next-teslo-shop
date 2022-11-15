@@ -1,5 +1,4 @@
 import { NextPage } from 'next';
-import Link from 'next/link';
 
 import { ShopLayout } from '../../components/layouts';
 import { CartList, OrderSumary } from '../../components/cart';

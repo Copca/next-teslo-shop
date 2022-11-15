@@ -1,33 +1,37 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { initialData } from '../../database/products';
-import { Counter } from '../ui';
+import { CartContext } from '../../context';
 
-const productsInCard = [
-	initialData.products[0],
-	initialData.products[1],
-	initialData.products[2]
-];
+import { Counter } from '../ui';
+import { ICartProduct } from '../../interfaces';
 
 interface Props {
 	editable?: boolean;
 }
 
 export const CartList: FC<Props> = ({ editable = false }) => {
+	const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext);
+
+	const onUpdatedQuantity = (product: ICartProduct, newQuantityValue: number) => {
+		product.quantity = newQuantityValue;
+
+		updateCartQuantity(product);
+	};
+
 	return (
 		<>
-			{productsInCard.map((product) => (
+			{cart.map((product) => (
 				<div
-					key={product.slug}
+					key={product.slug + product.size}
 					className='flex flex-col items-center md:flex-row md:items-start gap-4 mb-4'
 				>
 					<div>
 						{/* TODO: Leevar a la página del prouducto */}
-						<Link href={'/product/slug'}>
+						<Link href={`/product/${product.slug}`}>
 							<Image
-								src={`/products/${product.images[0]}`}
+								src={`/products/${product.image}`}
 								alt={product.title}
 								width={200}
 								height={200}
@@ -45,13 +49,22 @@ export const CartList: FC<Props> = ({ editable = false }) => {
 
 							<p>
 								Talla:
-								<span className='font-bold ml-3'>{product.sizes[2]}</span>
+								<span className='font-bold ml-3'>{product.size}</span>
 							</p>
 
 							{editable ? (
-								<Counter />
+								<Counter
+									currentValue={product.quantity}
+									maxValue={10}
+									updatedQuantity={(value) =>
+										onUpdatedQuantity(product, value)
+									}
+								/>
 							) : (
-								<p className='text-xl mt-4'>3 Productos </p>
+								<p className='text-xl mt-4'>
+									{product.quantity}{' '}
+									{product.quantity > 1 ? 'Productos' : 'Producto'}
+								</p>
 							)}
 						</div>
 
@@ -59,7 +72,10 @@ export const CartList: FC<Props> = ({ editable = false }) => {
 							<p className='text-lg font-bold'>$ {product.price}</p>
 
 							{editable && (
-								<button className='text-blue-500 hover:text-blue-600 font-bold text-sm transition-colors'>
+								<button
+									className='text-blue-500 hover:text-blue-600 font-bold text-sm transition-colors'
+									onClick={() => removeCartProduct(product)}
+								>
 									Remover
 								</button>
 							)}
