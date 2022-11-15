@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { BiSearchAlt2 } from 'react-icons/bi';
 
-import { UiContext } from '../../context/ui/';
+import { UiContext } from '../../context';
+
 import { CartBtn } from './CartBtn';
 import { InputSearch } from './InputSearch';
 

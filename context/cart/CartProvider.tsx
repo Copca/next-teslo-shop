@@ -6,10 +6,18 @@ import { ICartProduct } from '../../interfaces';
 
 export interface CartState {
 	cart: ICartProduct[];
+	numberOfItems: number;
+	subTotal: number;
+	tax: number;
+	total: number;
 }
 
 const CART_INITIAL_STATE: CartState = {
-	cart: []
+	cart: [],
+	numberOfItems: 0,
+	subTotal: 0,
+	tax: 0,
+	total: 0
 };
 
 export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -44,6 +52,33 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 			Cookie.set('cart', JSON.stringify(state.cart));
 		}
 	}, [state.cart, isMounted]);
+
+	// Calular el total de articulos en carrito y subtotal del costo
+	useEffect(() => {
+		// Cantidad de articulos
+		const numberOfItems = state.cart.reduce(
+			(prev, current) => current.quantity + prev,
+			0
+		);
+
+		// Subtotal
+		const subTotal = state.cart.reduce(
+			(prev, current) => current.price * current.quantity + prev,
+			0
+		);
+
+		// Impuestos 15%
+		const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE!);
+
+		const orderSummary = {
+			numberOfItems,
+			subTotal,
+			tax: subTotal * taxRate,
+			total: subTotal + subTotal * taxRate
+		};
+
+		dispatch({ type: '[Cart] - Update order summary', payload: orderSummary });
+	}, [state.cart]);
 
 	const addProduct = (product: ICartProduct) => {
 		// Solo agrega el producto si el ID aún no esta en el carrito

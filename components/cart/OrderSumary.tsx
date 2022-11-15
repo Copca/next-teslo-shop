@@ -1,6 +1,12 @@
+import { useContext } from 'react';
 import Link from 'next/link';
 
+import { CartContext } from '../../context';
+import { divisa } from '../../utils';
+
 export const OrderSumary = () => {
+	const { numberOfItems, subTotal, tax, total } = useContext(CartContext);
+
 	return (
 		<div className='p-4'>
 			<h2 className='text-xl'>Orden</h2>
@@ -8,22 +14,24 @@ export const OrderSumary = () => {
 
 			<div className='flex justify-between'>
 				<h6>No. Productos</h6>
-				<p>3 Productos</p>
+				<p>
+					{numberOfItems} {numberOfItems > 1 ? 'Productos' : 'Producto'}
+				</p>
 			</div>
 
 			<div className='flex justify-between'>
 				<h6>Subtotal</h6>
-				<p>$ 75</p>
+				<p>{divisa.formatearDinero(subTotal)}</p>
 			</div>
 
 			<div className='flex justify-between'>
-				<h6>Impuestos 15%</h6>
-				<p>$ 11.75</p>
+				<h6>Impuestos {Number(process.env.NEXT_PUBLIC_TAX_RATE) * 100}%</h6>
+				<p>{divisa.formatearDinero(tax)}</p>
 			</div>
 
 			<div className='flex justify-between text-xl font-bold mt-4'>
 				<h6>Total:</h6>
-				<p>$ 86.25</p>
+				<p>{divisa.formatearDinero(total)}</p>
 			</div>
 
 			<Link
