@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
 
 import { db } from '../../../database';
-import { IUser } from '../../../interfaces';
 import { User } from '../../../models';
+import { jwt } from '../../../utils';
 
 type Data =
 	| { message: string }
@@ -33,6 +33,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 // POST /api/user/login
 const loginUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 	const { email = '', password = '' } = req.body;
+
 	try {
 		await db.connect();
 		const user = await User.findOne({ email });
@@ -51,14 +52,19 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		}
 
 		// Seleccionamos la información que se enviará al Front End
-		const { role, name } = user;
+		const { role, name, _id } = user;
+
+		// Genero el JWT
+		const token = jwt.signToken(_id, email);
 
 		return res.status(200).json({
-			token: '', // jwt
+			token, // jwt
 			user: { email, name, role }
 		});
 	} catch (error) {
 		console.log(error);
+		// const { message = 'Revise logs del servidor' } = error as { message: string };
+
 		return res.status(500).json({ message: 'Revise logs del servidor' });
 	}
 };
