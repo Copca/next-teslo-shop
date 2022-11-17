@@ -4,7 +4,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 
 import { dbProducts } from '../../database';
-import { IProduct } from '../../interfaces/products';
+import { IProduct } from '../../interfaces';
 
 import { ShopLayout } from '../../components/layouts/';
 import { ProductList } from '../../components/products';

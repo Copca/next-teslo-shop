@@ -1,4 +1,4 @@
-import { ISize } from '../../interfaces/products';
+import { ISize } from '../../interfaces/product';
 import { FC } from 'react';
 
 interface Props {

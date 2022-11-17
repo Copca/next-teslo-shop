@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { IProduct } from '../../interfaces/products';
+import { IProduct } from '../../interfaces';
 
 interface Props {
 	product: IProduct;
