@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.10.12",
     "@mui/x-data-grid": "^5.17.10",
+    "bcryptjs": "^2.4.3",
     "js-cookie": "^3.0.1",
     "mongoose": "^6.7.2",
     "next": "13.0.1",
@@ -23,6 +24,7 @@
     "tw-elements": "^1.0.0-alpha12"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/js-cookie": "^3.0.2",
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
