@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, useEffect, useReducer, useRef, useState } from 'react';
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 
 import { CartContext, cartReducer } from './';
 import { ICartProduct } from '../../interfaces';
@@ -29,7 +29,7 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 		if (!isMounted) {
 			// usando el trycatch prevenimos un error si modifican las cookies en en navegador
 			try {
-				const cookieProducts = JSON.parse(Cookie.get('cart') ?? '[]');
+				const cookieProducts = JSON.parse(Cookies.get('cart') ?? '[]');
 
 				dispatch({
 					type: '[Cart] - Load Cart from Cookies | storage',
@@ -49,7 +49,7 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 	// Ya que el componente esta montado almacenamos los cambios de carrito en las cookies
 	useEffect(() => {
 		if (isMounted) {
-			Cookie.set('cart', JSON.stringify(state.cart));
+			Cookies.set('cart', JSON.stringify(state.cart));
 		}
 	}, [state.cart, isMounted]);
 
