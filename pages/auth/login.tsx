@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { AiFillGithub } from 'react-icons/ai';
 
 import { validation } from '../../utils';
+import { clienteAxios } from '../../axios';
 
 import { AuthLayout } from '../../components/layouts';
 
@@ -18,9 +20,27 @@ const LoginPage: NextPage = () => {
 		handleSubmit,
 		formState: { errors }
 	} = useForm<FormData>();
+	const [isShowError, setIsShowError] = useState(false);
 
-	const onLoginUser = (data: FormData) => {
-		console.log({ data });
+	const onLoginUser = async ({ email, password }: FormData) => {
+		setIsShowError(false);
+
+		try {
+			const { data } = await clienteAxios.post('/user/login', { email, password });
+			const { token, user } = data;
+
+			console.log({ token, user });
+		} catch (error: any) {
+			console.log(error.response.data);
+
+			setIsShowError(true);
+
+			setTimeout(() => {
+				setIsShowError(false);
+			}, 3000);
+		}
+
+		// TODO: navegar a la pantalla que el usuario estaba ( ya con credenciales - loggeado)
 	};
 
 	return (
@@ -28,6 +48,12 @@ const LoginPage: NextPage = () => {
 			<div className='container'>
 				<div className='max-w-lg mx-auto bg-white border shadow rounded-md p-8'>
 					<h1 className='text-2xl font-bold mb-8'>Iniciar Sesión</h1>
+
+					{isShowError && (
+						<div className='bg-red-500 text-white text-center text-sm rounded-full py-1.5 mb-8 w-4/5 mx-auto'>
+							No encontramos ese usuario/contraseña
+						</div>
+					)}
 
 					<form onSubmit={handleSubmit(onLoginUser)} noValidate>
 						<div className={`relative mb-4`}>
