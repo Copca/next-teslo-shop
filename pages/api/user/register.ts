@@ -39,7 +39,7 @@ const registerUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => 
 		// Revisamos si el usuario ya esta registrado
 		if (user) {
 			await db.disconnect();
-			const { message } = new Error('Este usuario ya esta registrado');
+			const { message } = new Error('Este usuario ya está registrado');
 			return res.status(400).json({ message });
 		}
 

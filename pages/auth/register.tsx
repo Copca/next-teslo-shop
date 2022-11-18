@@ -1,14 +1,50 @@
-import { FormEvent } from 'react';
+import { useState } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 import { AiFillGithub } from 'react-icons/ai';
 
+import { validation } from '../../utils';
+import { clienteAxios } from '../../axios';
+
 import { AuthLayout } from '../../components/layouts';
-import { InputLogin } from '../../components/ui';
+
+interface FormData {
+	name: string;
+	email: string;
+	password: string;
+}
 
 const RegisterPage: NextPage = () => {
-	const onSubmitForm = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors }
+	} = useForm<FormData>();
+	const [isShowError, setIsShowError] = useState(false);
+
+	const onRegisterUser = async ({ name, email, password }: FormData) => {
+		setIsShowError(false);
+
+		try {
+			const { data } = await clienteAxios.post('/user/register', {
+				name,
+				email,
+				password
+			});
+
+			const { token, user } = data;
+
+			console.log({ token, user });
+		} catch (error: any) {
+			console.log(error.response.data);
+
+			setIsShowError(true);
+
+			setTimeout(() => {
+				setIsShowError(false);
+			}, 3000);
+		}
 	};
 
 	return (
@@ -17,14 +53,62 @@ const RegisterPage: NextPage = () => {
 				<div className='max-w-lg mx-auto bg-white border shadow rounded-md p-8'>
 					<h1 className='text-2xl font-bold mb-8'>Crear cuenta</h1>
 
-					<form onSubmit={onSubmitForm}>
-						<InputLogin type='text' labelText='Nombre' className='mb-4' />
-						<InputLogin type='email' labelText='Email' className='mb-4' />
-						<InputLogin
-							type='password'
-							labelText='Contraseña'
-							className='mb-4'
-						/>
+					{isShowError && (
+						<div className='bg-red-500 text-white text-center text-sm rounded-full py-1.5 mb-8 w-4/5 mx-auto'>
+							Este usuario ya esta registrado
+						</div>
+					)}
+
+					<form onSubmit={handleSubmit(onRegisterUser)}>
+						<div className={`relative mb-4`}>
+							<input
+								type='text'
+								placeholder=' '
+								className='w-full border focus:border-sky-500 rounded-md outline-none py-2 px-3 peer'
+								{...register('name', {
+									required: 'Este campo es obligatorio'
+								})}
+							/>
+							<label className='label-float'>Nombre</label>
+							<p className='mt-1 ml-2 peer-invalid:visible text-pink-600 text-xs'>
+								{errors.name && errors.name?.message}
+							</p>
+						</div>
+
+						<div className={`relative mb-4`}>
+							<input
+								type='email'
+								placeholder=' '
+								className='w-full border focus:border-sky-500 rounded-md outline-none py-2 px-3 peer'
+								{...register('email', {
+									required: 'Este campo es obligatorio',
+									validate: validation.isEmail
+								})}
+							/>
+							<label className='label-float'>Email</label>
+							<p className='mt-1 ml-2 peer-invalid:visible text-pink-600 text-xs'>
+								{errors.email && errors.email?.message}
+							</p>
+						</div>
+
+						<div className={`relative mb-4`}>
+							<input
+								type='password'
+								placeholder=' '
+								className='w-full border focus:border-sky-500 rounded-md outline-none py-2 px-3 peer'
+								{...register('password', {
+									required: 'Este campo es obligatorio',
+									minLength: {
+										value: 6,
+										message: 'Mínimo 6 caracteres'
+									}
+								})}
+							/>
+							<label className='label-float'>Password</label>
+							<p className='mt-1 ml-2 peer-invalid:visible text-pink-600 text-xs'>
+								{errors.password && errors.password?.message}
+							</p>
+						</div>
 
 						<button
 							type='submit'
@@ -32,7 +116,7 @@ const RegisterPage: NextPage = () => {
 							data-mdb-ripple='true'
 							data-mdb-ripple-color='light'
 						>
-							Ingresar
+							Crear Cuenta
 						</button>
 
 						<div className='flex justify-end'>
