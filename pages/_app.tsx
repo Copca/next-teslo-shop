@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 
-import { CartProvider, UiProvider } from '../context';
+import { AuthProvider, CartProvider, UiProvider } from '../context';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -12,11 +12,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 					fetch(resource, init).then((res) => res.json())
 			}}
 		>
-			<CartProvider>
-				<UiProvider>
-					<Component {...pageProps} />
-				</UiProvider>
-			</CartProvider>
+			<AuthProvider>
+				<CartProvider>
+					<UiProvider>
+						<Component {...pageProps} />
+					</UiProvider>
+				</CartProvider>
+			</AuthProvider>
 		</SWRConfig>
 	);
 }
