@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { AiFillGithub } from 'react-icons/ai';
 
-import { validation } from '../../utils';
+import { AuthContext } from '../../context';
 import { clienteAxios } from '../../axios';
+import { validation } from '../../utils';
 
 import { AuthLayout } from '../../components/layouts';
 
@@ -16,35 +18,30 @@ interface FormData {
 }
 
 const RegisterPage: NextPage = () => {
+	const router = useRouter();
+	const { registerUser } = useContext(AuthContext);
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
 	} = useForm<FormData>();
 	const [isShowError, setIsShowError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 
 	const onRegisterUser = async ({ name, email, password }: FormData) => {
 		setIsShowError(false);
+		const { hasError, message } = await registerUser(name, email, password);
 
-		try {
-			const { data } = await clienteAxios.post('/user/register', {
-				name,
-				email,
-				password
-			});
-
-			const { token, user } = data;
-
-			console.log({ token, user });
-		} catch (error: any) {
-			console.log(error.response.data);
-
+		if (hasError) {
 			setIsShowError(true);
-
+			setErrorMessage(message!);
 			setTimeout(() => {
 				setIsShowError(false);
 			}, 3000);
+			return;
 		}
+
+		router.replace('/');
 	};
 
 	return (

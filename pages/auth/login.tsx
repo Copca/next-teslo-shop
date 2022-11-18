@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { AiFillGithub } from 'react-icons/ai';
 
+import { AuthContext } from '../../context/';
 import { validation } from '../../utils';
-import { clienteAxios } from '../../axios';
 
 import { AuthLayout } from '../../components/layouts';
 
@@ -15,6 +16,8 @@ type FormData = {
 };
 
 const LoginPage: NextPage = () => {
+	const router = useRouter();
+	const { loginUser } = useContext(AuthContext);
 	const {
 		register,
 		handleSubmit,
@@ -25,22 +28,20 @@ const LoginPage: NextPage = () => {
 	const onLoginUser = async ({ email, password }: FormData) => {
 		setIsShowError(false);
 
-		try {
-			const { data } = await clienteAxios.post('/user/login', { email, password });
-			const { token, user } = data;
+		const isValidLogin = await loginUser(email, password);
 
-			console.log({ token, user });
-		} catch (error: any) {
-			console.log(error.response.data);
-
+		if (!isValidLogin) {
 			setIsShowError(true);
 
 			setTimeout(() => {
 				setIsShowError(false);
 			}, 3000);
+
+			return;
 		}
 
 		// TODO: navegar a la pantalla que el usuario estaba ( ya con credenciales - loggeado)
+		router.replace('/');
 	};
 
 	return (
