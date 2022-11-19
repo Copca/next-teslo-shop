@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useReducer } from 'react';
+import { FC, PropsWithChildren, useEffect, useReducer, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -19,6 +19,27 @@ const AUTH_INITIAL_STATE: AuthState = {
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
 
+	// Mantenemos persistencia en la autenticación
+	useEffect(() => {
+		checkToken();
+	}, []);
+
+	// Mantenemos persistencia en la autenticación
+	const checkToken = async () => {
+		if (!Cookies.get('token')) return;
+
+		try {
+			const { data } = await clienteAxios.get('/user/validate-token');
+			const { token, user } = data;
+
+			// Guardamos el token en Cookies
+			Cookies.set('token', token);
+			dispatch({ type: '[Auth] - Login', payload: user });
+		} catch (error) {
+			Cookies.remove('token');
+		}
+	};
+
 	const loginUser = async (email: string, password: string): Promise<boolean> => {
 		try {
 			const { data } = await clienteAxios.post('/user/login', { email, password });
@@ -26,8 +47,8 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
 			// Guardamos el token en Cookies
 			Cookies.set('token', token);
-
 			dispatch({ type: '[Auth] - Login', payload: user });
+
 			return true;
 		} catch (error) {
 			return false;
@@ -40,6 +61,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 		password: string
 	): Promise<{ hasError: boolean; message?: string }> => {
 		// tipado en linea, lo ideal es hacer la interfaz
+
 		try {
 			const { data } = await clienteAxios.post('/user/register', {
 				name,
