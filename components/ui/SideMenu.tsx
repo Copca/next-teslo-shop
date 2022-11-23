@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import { BiUserCircle, BiX, BiExit, BiLogIn } from 'react-icons/bi';
@@ -13,7 +14,8 @@ import { AuthContext } from '../../context';
 import { InputSearch } from './InputSearch';
 
 export const SideMenu = () => {
-	const { isLoggedIn, user } = useContext(AuthContext);
+	const router = useRouter();
+	const { isLoggedIn, user, logout } = useContext(AuthContext);
 
 	return (
 		<>
@@ -59,41 +61,44 @@ export const SideMenu = () => {
 								</>
 							)}
 
-							<Link
-								href='/category/men'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<AiOutlineMan className='text-2xl' />
-								Hombres
-							</Link>
+							{/* Solo visible en pantallas chicas */}
+							<div className='space-y-6 lg:hidden'>
+								<Link
+									href='/category/men'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<AiOutlineMan className='text-2xl' />
+									Hombres
+								</Link>
 
-							<Link
-								href='/category/women'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<AiOutlineWoman className='text-2xl' />
-								Mujeres
-							</Link>
+								<Link
+									href='/category/women'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<AiOutlineWoman className='text-2xl' />
+									Mujeres
+								</Link>
 
-							<Link
-								href='/category/kids'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<FaChild className='text-2xl' />
-								Niños
-							</Link>
+								<Link
+									href='/category/kids'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<FaChild className='text-2xl' />
+									Niños
+								</Link>
+							</div>
 
 							{isLoggedIn ? (
-								<Link
-									href='#'
+								<button
 									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+									onClick={logout}
 								>
 									<BiExit className='text-2xl' />
 									Salir
-								</Link>
+								</button>
 							) : (
 								<Link
-									href='/auth/login'
+									href={`/auth/login?p=${router.asPath}`}
 									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
 								>
 									<BiLogIn className='text-2xl' />

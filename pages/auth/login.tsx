@@ -40,8 +40,9 @@ const LoginPage: NextPage = () => {
 			return;
 		}
 
-		// TODO: navegar a la pantalla que el usuario estaba ( ya con credenciales - loggeado)
-		router.replace('/');
+		// Redireccionamiento a la última página visitada
+		const destination = router.query.p?.toString() || '/';
+		router.replace(destination);
 	};
 
 	return (
