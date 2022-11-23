@@ -4,7 +4,7 @@ import { IUser } from '../../interfaces';
 
 interface ContextProps {
 	// State
-	isLoggedin: boolean;
+	isLoggedIn: boolean;
 	user?: IUser;
 
 	// Metodos

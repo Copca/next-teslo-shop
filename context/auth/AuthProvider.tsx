@@ -7,12 +7,12 @@ import clienteAxios from '../../axios/axios';
 import { IUser } from '../../interfaces';
 
 export interface AuthState {
-	isLoggedin: boolean;
+	isLoggedIn: boolean;
 	user?: IUser;
 }
 
 const AUTH_INITIAL_STATE: AuthState = {
-	isLoggedin: false,
+	isLoggedIn: false,
 	user: undefined
 };
 

@@ -1,15 +1,20 @@
+import { useContext } from 'react';
 import Link from 'next/link';
 
-import { BiUserCircle, BiX, BiExit } from 'react-icons/bi';
+import { BiUserCircle, BiX, BiExit, BiLogIn } from 'react-icons/bi';
 import { TiTicket } from 'react-icons/ti';
 import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
 import { FaChild, FaUsers } from 'react-icons/fa';
 import { MdOutlineDashboard } from 'react-icons/md';
 import { GiClothes } from 'react-icons/gi';
 
+import { AuthContext } from '../../context';
+
 import { InputSearch } from './InputSearch';
 
 export const SideMenu = () => {
+	const { isLoggedIn, user } = useContext(AuthContext);
+
 	return (
 		<>
 			<div
@@ -32,23 +37,27 @@ export const SideMenu = () => {
 				<div className='offcanvas-body flex-grow overflow-y-auto p-8'>
 					<InputSearch icon='search' color='light' />
 
-					<div className='space-y-12 mt-12'>
-						<nav className='space-y-4 border-b border-gray-400 pb-4'>
-							<Link
-								href='#'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<BiUserCircle className='text-2xl' />
-								Perfil
-							</Link>
+					<div className='mt-12'>
+						<nav className='space-y-6'>
+							{isLoggedIn && (
+								<>
+									<Link
+										href='#'
+										className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+									>
+										<BiUserCircle className='text-2xl' />
+										Perfil
+									</Link>
 
-							<Link
-								href='#'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<TiTicket className='text-2xl' />
-								Mis ordenes
-							</Link>
+									<Link
+										href='#'
+										className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+									>
+										<TiTicket className='text-2xl' />
+										Mis ordenes
+									</Link>
+								</>
+							)}
 
 							<Link
 								href='/category/men'
@@ -74,50 +83,63 @@ export const SideMenu = () => {
 								Niños
 							</Link>
 
-							<Link
-								href='#'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<BiExit className='text-2xl' />
-								Salir
-							</Link>
+							{isLoggedIn ? (
+								<Link
+									href='#'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<BiExit className='text-2xl' />
+									Salir
+								</Link>
+							) : (
+								<Link
+									href='/auth/login'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<BiLogIn className='text-2xl' />
+									Login
+								</Link>
+							)}
 						</nav>
 
-						<nav className='space-y-4'>
-							<h6 className='text-xl'>Admin Panel</h6>
+						{/* Admin Panel */}
+						{user?.role === 'admin' && (
+							<nav className='space-y-4 border-t border-t-slate-400 mt-8 py-4'>
+								<h6 className='text-xl'>Admin Panel</h6>
 
-							<Link
-								href='#'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<MdOutlineDashboard className='text-2xl' />
-								Dashboard
-							</Link>
+								<Link
+									href='#'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<MdOutlineDashboard className='text-2xl' />
+									Dashboard
+								</Link>
 
-							<Link
-								href='#'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<GiClothes className='text-2xl' />
-								Productos
-							</Link>
+								<Link
+									href='#'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<GiClothes className='text-2xl' />
+									Productos
+								</Link>
 
-							<Link
-								href='#'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<TiTicket className='text-2xl' />
-								Ordenes
-							</Link>
+								<Link
+									href='#'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<TiTicket className='text-2xl' />
+									Ordenes
+								</Link>
 
-							<Link
-								href='#'
-								className='flex items-center gap-2 hover:text-slate-300 transition-colors'
-							>
-								<FaUsers className='text-2xl' />
-								Usuarios
-							</Link>
-						</nav>
+								<Link
+									href='#'
+									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
+								>
+									<FaUsers className='text-2xl' />
+									Usuarios
+								</Link>
+							</nav>
+						)}
 					</div>
 				</div>
 			</div>

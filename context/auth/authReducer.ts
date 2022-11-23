@@ -10,14 +10,14 @@ export const authReducer = (state: AuthState, action: AuthActionType): AuthState
 		case '[Auth] - Login':
 			return {
 				...state,
-				isLoggedin: true,
+				isLoggedIn: true,
 				user: action.payload
 			};
 
 		case '[Auth] - Logout':
 			return {
 				...state,
-				isLoggedin: false,
+				isLoggedIn: false,
 				user: undefined
 			};
 
