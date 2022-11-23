@@ -104,7 +104,11 @@ const LoginPage: NextPage = () => {
 
 						<div className='flex justify-end'>
 							<Link
-								href={'/auth/register'}
+								href={`${
+									router.query.p
+										? `/auth/register?p=${router.query.p}`
+										: '/auth/register'
+								}`}
 								className='underline text-slate-500 hover:text-slate-700 transition-colors'
 							>
 								¿No tienes cuenta?

@@ -41,7 +41,11 @@ const RegisterPage: NextPage = () => {
 			return;
 		}
 
-		router.replace('/');
+		// Redireccionamiento a la última página visitada
+		const destination = router.query.p?.toString() || '/';
+		console.log(destination);
+
+		router.replace(destination);
 	};
 
 	return (
@@ -118,7 +122,11 @@ const RegisterPage: NextPage = () => {
 
 						<div className='flex justify-end'>
 							<Link
-								href={'/auth/login'}
+								href={`${
+									router.query.p
+										? `/auth/login?p=${router.query.p}`
+										: '/auth/login'
+								}`}
 								className='underline text-slate-500 hover:text-slate-700 transition-colors'
 							>
 								Ya tengo una cuenta, iniciar sesión
