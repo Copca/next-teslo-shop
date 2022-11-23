@@ -23,9 +23,10 @@ export const Navbar = () => {
 				<div className='hidden lg:flex items-center gap-4 '>
 					<Link
 						href={`/category/men`}
-						className={`btn hover:bg-slate-800 text-slate-800 hover:text-white shadow ${
-							router.pathname === `/category/men` &&
-							'bg-slate-700 text-white'
+						className={`btn hover:bg-slate-800 hover:text-white shadow ${
+							router.asPath === `/category/men`
+								? 'bg-slate-700 text-white'
+								: 'text-slate-800'
 						}`}
 						data-mdb-ripple='true'
 						data-mdb-ripple-color='light'
@@ -35,9 +36,10 @@ export const Navbar = () => {
 
 					<Link
 						href={`/category/women`}
-						className={`btn hover:bg-slate-800 text-slate-800 hover:text-white shadow ${
-							router.pathname === `/category/women` &&
-							'bg-slate-700 text-white'
+						className={`btn hover:bg-slate-800 hover:text-white shadow ${
+							router.asPath === `/category/women`
+								? 'bg-slate-700 text-white'
+								: 'text-slate-800'
 						}`}
 						data-mdb-ripple='true'
 						data-mdb-ripple-color='light'
@@ -47,9 +49,10 @@ export const Navbar = () => {
 
 					<Link
 						href={`/category/kids`}
-						className={`btn hover:bg-slate-800 text-slate-800 hover:text-white shadow ${
-							router.pathname === `/category/kids` &&
-							'bg-slate-700 text-white'
+						className={`btn hover:bg-slate-800 hover:text-white shadow ${
+							router.asPath === `/category/kids`
+								? 'bg-slate-700 text-white'
+								: 'text-slate-800'
 						}`}
 						data-mdb-ripple='true'
 						data-mdb-ripple-color='light'
