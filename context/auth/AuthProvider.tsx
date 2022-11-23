@@ -1,4 +1,5 @@
-import { FC, PropsWithChildren, useEffect, useReducer, useState } from 'react';
+import { FC, PropsWithChildren, useEffect, useReducer } from 'react';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -18,6 +19,7 @@ const AUTH_INITIAL_STATE: AuthState = {
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
+	const router = useRouter();
 
 	// Mantenemos persistencia en la autenticación
 	useEffect(() => {
@@ -94,6 +96,14 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	};
 
+	const logout = () => {
+		Cookies.remove('token');
+		Cookies.remove('cart');
+
+		// refresh borra todo el state de la aplicación
+		router.reload();
+	};
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -102,7 +112,8 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
 				// Metodos
 				loginUser,
-				registerUser
+				registerUser,
+				logout
 			}}
 		>
 			{children}
