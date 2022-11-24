@@ -1,9 +1,27 @@
-import { NextPage } from 'next';
+/**
+ * Verificación y redireccionamiento del carrito en el Front-End
+ */
 
+import { useContext, useEffect } from 'react';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+
+import { CartContext } from '../../context';
 import { ShopLayout } from '../../components/layouts';
 import { CartList, OrderSumary } from '../../components/cart';
 
 const CartPage: NextPage = () => {
+	const router = useRouter();
+	const { isLoaded, cart } = useContext(CartContext);
+
+	useEffect(() => {
+		if (isLoaded && cart.length === 0) {
+			router.replace('/cart/empty');
+		}
+	}, [isLoaded, cart, router]);
+
+	if (!isLoaded || cart.length === 0) return <></>;
+
 	return (
 		<ShopLayout
 			tittle={'Carrito'}
