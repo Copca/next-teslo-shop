@@ -35,7 +35,7 @@ export const OrderSumary = () => {
 			</div>
 
 			<Link
-				href={'#'}
+				href={'/checkout/address'}
 				className='btn bg-blue-500 hover:bg-blue-600 rounded-full w-full mt-4'
 			>
 				Checkout
