@@ -5,7 +5,7 @@
 import { NextPage } from 'next';
 
 import { ShopLayout } from '../../components/layouts';
-import { FormAddres } from '../../components/cart';
+import { FormAddress } from '../../components/cart';
 
 const AddressPage: NextPage = () => {
 	return (
@@ -16,7 +16,7 @@ const AddressPage: NextPage = () => {
 			<div className='container'>
 				<h1 className='text-2xl mb-8'>Dirección</h1>
 
-				<FormAddres />
+				<FormAddress />
 			</div>
 		</ShopLayout>
 	);
