@@ -1,15 +1,28 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import Link from 'next/link';
+
+import { CartContext } from '../../context';
+
 import { Chip } from '../ui';
+import { countries } from '../../utils';
 
 interface Props {
 	pay?: boolean;
 }
 
 export const OrderConfirm: FC<Props> = ({ pay = false }) => {
+	const { shippingAddress, numberOfItems } = useContext(CartContext);
+
+	if (!shippingAddress) return <></>;
+
+	const { firstName, lastName, address, address2, city, zip, country, phone } =
+		shippingAddress;
+
 	return (
 		<div className='p-4'>
-			<h2 className='text-xl'>Resumen (3) Producto</h2>
+			<h2 className='text-xl'>
+				Resumen ({numberOfItems}) {numberOfItems === 1 ? 'Productos' : 'Producto'}
+			</h2>
 			<hr className='mb-8' />
 
 			<div className='flex justify-between mb-2'>
@@ -19,12 +32,16 @@ export const OrderConfirm: FC<Props> = ({ pay = false }) => {
 				</Link>
 			</div>
 
-			<p>Ernesto Israel Copca Soriano</p>
-			<p>Jinete No. 39 int. 401</p>
-			<p>CDMX</p>
-			<p>01430</p>
-			<p>México</p>
-			<p>55 39 39 48 70</p>
+			<p>
+				{firstName} {lastName}
+			</p>
+			<p>
+				{address} {address2 ? `, ${address2}` : ''}
+			</p>
+			<p>{city}</p>
+			<p>{zip}</p>
+			<p>{countries.find((c) => c.code === country)?.name}</p>
+			<p>{phone}</p>
 
 			<hr />
 
