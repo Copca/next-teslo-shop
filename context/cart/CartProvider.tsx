@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect, useReducer, useRef, useState } from 'react';
+import { FC, PropsWithChildren, useEffect, useReducer, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import { CartContext, cartReducer } from './';
@@ -11,6 +11,19 @@ export interface CartState {
 	subTotal: number;
 	tax: number;
 	total: number;
+
+	shippingAddress?: ShippingAddress;
+}
+
+export interface ShippingAddress {
+	firstName: string;
+	lastName: string;
+	address: string;
+	address2: string;
+	zip: string;
+	city: string;
+	country: string;
+	phone: string;
 }
 
 const CART_INITIAL_STATE: CartState = {
@@ -19,14 +32,15 @@ const CART_INITIAL_STATE: CartState = {
 	numberOfItems: 0,
 	subTotal: 0,
 	tax: 0,
-	total: 0
+	total: 0,
+	shippingAddress: undefined
 };
 
 export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(cartReducer, CART_INITIAL_STATE);
 	const [isMounted, setIsMounted] = useState(false);
 
-	// Obtenemos el carrito de las Cookies la primera vez que se carga el componente (primer renderizado)
+	// Guardamos en el State los productos almacenados en Cookies
 	useEffect(() => {
 		if (!isMounted) {
 			// usando el trycatch prevenimos un error si modifican las cookies en en navegador
@@ -47,6 +61,24 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 
 		setIsMounted(true);
 	}, [isMounted]);
+
+	// Guardamos en el State los datos de ShippingAddress almacenados en Cookies
+	useEffect(() => {
+		if (Cookies.get('firstName')) {
+			const address = {
+				firstName: Cookies.get('firstName') ?? '',
+				lastName: Cookies.get('lastName') ?? '',
+				address: Cookies.get('address') ?? '',
+				address2: Cookies.get('address2') ?? '',
+				zip: Cookies.get('zip') ?? '',
+				city: Cookies.get('city') ?? '',
+				country: Cookies.get('country') ?? '',
+				phone: Cookies.get('phone') ?? ''
+			};
+
+			dispatch({ type: '[Cart] - Load Address from Cookies', payload: address });
+		}
+	}, []);
 
 	// Ya que el componente esta montado almacenamos los cambios de carrito en las cookies
 	useEffect(() => {
@@ -130,6 +162,19 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 		dispatch({ type: '[Cart] - Remove product in cart', payload: product });
 	};
 
+	const updateShippingAddress = (address: ShippingAddress) => {
+		Cookies.set('firstName', address.firstName);
+		Cookies.set('lastName', address.lastName);
+		Cookies.set('address', address.address);
+		Cookies.set('address2', address.address2);
+		Cookies.set('zip', address.zip);
+		Cookies.set('city', address.city);
+		Cookies.set('country', address.country);
+		Cookies.set('phone', address.phone);
+
+		dispatch({ type: '[Cart] - Update ShippingAddress', payload: address });
+	};
+
 	return (
 		<CartContext.Provider
 			value={{
@@ -139,7 +184,8 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 				// Metodos
 				addProduct,
 				updateCartQuantity,
-				removeCartProduct
+				removeCartProduct,
+				updateShippingAddress
 			}}
 		>
 			{children}
