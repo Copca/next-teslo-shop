@@ -16,7 +16,7 @@ export const checkUserEmailPassword = async (email: string, password: string) =>
 		return null;
 	}
 
-	const { role, name, _id } = user;
+	const { _id, name, role } = user;
 
 	return {
 		_id,
@@ -24,4 +24,32 @@ export const checkUserEmailPassword = async (email: string, password: string) =>
 		role,
 		name
 	};
+};
+
+// Esta función crea o verifica el usuario de OAuth
+export const oAuthToDbUser = async (oAuthEmail: string, oAuthName: string) => {
+	await db.connect();
+	const user = await User.findOne({ email: oAuthEmail });
+
+	// Si el usuario ya esta creado con credentials
+	if (user) {
+		await db.disconnect();
+		const { _id, email, role, name } = user;
+
+		return { _id, email, role, name };
+	}
+
+	// Si se esta logeando con algun Provider (gitHub)
+	const newUser = new User({
+		email: oAuthEmail,
+		name: oAuthName,
+		password: '@',
+		role: 'client'
+	});
+	await newUser.save();
+	await db.disconnect();
+
+	const { _id, email, role, name } = newUser;
+
+	return { _id, email, role, name };
 };

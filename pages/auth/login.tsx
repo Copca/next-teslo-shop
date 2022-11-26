@@ -1,7 +1,13 @@
+/**
+ * Restringimos la entrada a la página con SSR (getServerSideProps), si esta logeado
+ */
 import { useState, useContext } from 'react';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { unstable_getServerSession } from 'next-auth/next';
+import { authOptions } from '../api/auth/[...nextauth]';
+import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { AiFillGithub } from 'react-icons/ai';
 
@@ -27,6 +33,9 @@ const LoginPage: NextPage = () => {
 
 	const onLoginUser = async ({ email, password }: FormData) => {
 		setIsShowError(false);
+		/** 
+		 * 
+		 * Login personalizado se sustituye con NextAuth
 
 		const isValidLogin = await loginUser(email, password);
 
@@ -43,6 +52,8 @@ const LoginPage: NextPage = () => {
 		// Redireccionamiento a la última página visitada
 		const destination = router.query.p?.toString() || '/';
 		router.replace(destination);
+		*/
+		signIn('credentials', { email, password });
 	};
 
 	return (
@@ -131,6 +142,27 @@ const LoginPage: NextPage = () => {
 			</div>
 		</AuthLayout>
 	);
+};
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+export const getServerSideProps: GetServerSideProps = async ({ req, res, query }) => {
+	const session = await unstable_getServerSession(req, res, authOptions);
+	const { p = '/' } = query;
+
+	// Si tenemos session redireccionamos a '/' o a la última página visitada '?/category/men'
+	if (session) {
+		return {
+			redirect: {
+				destination: `${p}`,
+				permanent: false
+			}
+		};
+	}
+
+	return {
+		props: {}
+	};
 };
 
 export default LoginPage;

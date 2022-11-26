@@ -53,7 +53,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	};
 
-	// Login Personalizado
+	// Login Personalizado se sustituye por NextAuth
 	const loginUser = async (email: string, password: string): Promise<boolean> => {
 		try {
 			const { data } = await clienteAxios.post('/user/login', { email, password });
