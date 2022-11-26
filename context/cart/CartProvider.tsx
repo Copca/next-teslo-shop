@@ -2,7 +2,7 @@ import { FC, PropsWithChildren, useEffect, useReducer, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import { CartContext, cartReducer } from './';
-import { ICartProduct } from '../../interfaces';
+import { ICartProduct, IShippingAddress } from '../../interfaces';
 
 export interface CartState {
 	isLoaded: boolean;
@@ -12,18 +12,7 @@ export interface CartState {
 	tax: number;
 	total: number;
 
-	shippingAddress?: ShippingAddress;
-}
-
-export interface ShippingAddress {
-	firstName: string;
-	lastName: string;
-	address: string;
-	address2: string;
-	zip: string;
-	city: string;
-	country: string;
-	phone: string;
+	shippingAddress?: IShippingAddress;
 }
 
 const CART_INITIAL_STATE: CartState = {
@@ -162,11 +151,11 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 		dispatch({ type: '[Cart] - Remove product in cart', payload: product });
 	};
 
-	const updateShippingAddress = (address: ShippingAddress) => {
+	const updateShippingAddress = (address: IShippingAddress) => {
 		Cookies.set('firstName', address.firstName);
 		Cookies.set('lastName', address.lastName);
 		Cookies.set('address', address.address);
-		Cookies.set('address2', address.address2);
+		Cookies.set('address2', address.address2 || '');
 		Cookies.set('zip', address.zip);
 		Cookies.set('city', address.city);
 		Cookies.set('country', address.country);
