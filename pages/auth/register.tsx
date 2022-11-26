@@ -1,12 +1,19 @@
+/**
+ * Restringimos la entrada a la página con SSR (getServerSideProps), si esta logeado
+ */
 import { useState, useContext } from 'react';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+
+import { unstable_getServerSession } from 'next-auth/next';
+import { signIn } from 'next-auth/react';
+import { authOptions } from '../api/auth/[...nextauth]';
+
 import { AiFillGithub } from 'react-icons/ai';
 
 import { AuthContext } from '../../context';
-import { clienteAxios } from '../../axios';
 import { validation } from '../../utils';
 
 import { AuthLayout } from '../../components/layouts';
@@ -41,11 +48,8 @@ const RegisterPage: NextPage = () => {
 			return;
 		}
 
-		// Redireccionamiento a la última página visitada
-		const destination = router.query.p?.toString() || '/';
-		console.log(destination);
-
-		router.replace(destination);
+		//  Se crea la session y redirecciona en el SSR a '/' o a la última página visitada '?/category/men'
+		await signIn('credentials', { email, password });
 	};
 
 	return (
@@ -149,6 +153,27 @@ const RegisterPage: NextPage = () => {
 			</div>
 		</AuthLayout>
 	);
+};
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+export const getServerSideProps: GetServerSideProps = async ({ req, res, query }) => {
+	const session = await unstable_getServerSession(req, res, authOptions);
+	const { p = '/' } = query;
+
+	// Si tenemos session redireccionamos a '/' o a la última página visitada '?/category/men'
+	if (session) {
+		return {
+			redirect: {
+				destination: `${p}`,
+				permanent: false
+			}
+		};
+	}
+
+	return {
+		props: {}
+	};
 };
 
 export default RegisterPage;

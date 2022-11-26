@@ -1,17 +1,18 @@
 /**
  * Restringimos la entrada a la página con SSR (getServerSideProps), si esta logeado
  */
-import { useState, useContext } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from '../api/auth/[...nextauth]';
-import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+
+import { unstable_getServerSession } from 'next-auth/next';
+import { signIn, getProviders } from 'next-auth/react';
+import { authOptions } from '../api/auth/[...nextauth]';
+
 import { AiFillGithub } from 'react-icons/ai';
 
-import { AuthContext } from '../../context/';
 import { validation } from '../../utils';
 
 import { AuthLayout } from '../../components/layouts';
@@ -22,14 +23,27 @@ type FormData = {
 };
 
 const LoginPage: NextPage = () => {
+	// const { loginUser } = useContext(AuthContext); se sustitye con signIn()
 	const router = useRouter();
-	const { loginUser } = useContext(AuthContext);
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
 	} = useForm<FormData>();
+
 	const [isShowError, setIsShowError] = useState(false);
+	const [providers, setProviders] = useState<any>({});
+
+	// console.log(providers.github.id);
+
+	useEffect(() => {
+		const obtnerProvider = async () => {
+			const prov = await getProviders();
+			setProviders(prov);
+		};
+
+		obtnerProvider();
+	}, []);
 
 	const onLoginUser = async ({ email, password }: FormData) => {
 		setIsShowError(false);
@@ -53,7 +67,15 @@ const LoginPage: NextPage = () => {
 		const destination = router.query.p?.toString() || '/';
 		router.replace(destination);
 		*/
-		signIn('credentials', { email, password });
+		//  Se crea la session y redirecciona en el SSR a '/' o a la última página visitada '?/category/men'
+		await signIn('credentials', { email, password });
+	};
+
+	const onLoginProvider = async (e: SyntheticEvent, provider: string) => {
+		e.preventDefault();
+
+		//  Se crea la session y redirecciona en el SSR a '/' o a la última página visitada '?/category/men'
+		await signIn(provider);
 	};
 
 	return (
@@ -133,6 +155,7 @@ const LoginPage: NextPage = () => {
 								className='btn text-gray-800 hover:bg-gray-100 border border-gray-500 gap-2 w-full mt-8'
 								data-mdb-ripple='true'
 								data-mdb-ripple-color='dark'
+								onClick={(e) => onLoginProvider(e, providers.github.id)}
 							>
 								<AiFillGithub className='text-lg' /> GitHub
 							</button>
