@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, useEffect, useReducer } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -23,11 +23,12 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 	const { data, status } = useSession();
 	const router = useRouter();
 
+	// Autenticación con NextAuth
 	useEffect(() => {
 		if (status === 'authenticated') {
 			console.log({ user: data.user });
 
-			// TODO: dispatch({type: '[Auth] - Login', payload: data.user as IUser})
+			dispatch({ type: '[Auth] - Login', payload: data.user as IUser });
 		}
 	}, [status, data]);
 
@@ -120,8 +121,11 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 		Cookies.remove('country');
 		Cookies.remove('phone');
 
-		// refresh borra todo el state de la aplicación
-		router.reload();
+		// Función de NextAuth para cerrar Sesión
+		signOut();
+
+		// Para autenticación personalizada refresh borra todo el state de la aplicación
+		// router.reload();
 	};
 
 	return (
