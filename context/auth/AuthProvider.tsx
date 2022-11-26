@@ -1,4 +1,5 @@
 import { FC, PropsWithChildren, useEffect, useReducer } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -19,12 +20,21 @@ const AUTH_INITIAL_STATE: AuthState = {
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
+	const { data, status } = useSession();
 	const router = useRouter();
 
-	// Mantenemos persistencia en la autenticación
 	useEffect(() => {
-		checkToken();
-	}, []);
+		if (status === 'authenticated') {
+			console.log({ user: data.user });
+
+			// TODO: dispatch({type: '[Auth] - Login', payload: data.user as IUser})
+		}
+	}, [status, data]);
+
+	// Mantenemos persistencia en la autenticación personalizada
+	// useEffect(() => {
+	// 	checkToken();
+	// }, []);
 
 	// Mantenemos persistencia en la autenticación
 	const checkToken = async () => {
@@ -42,6 +52,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	};
 
+	// Login Personalizado
 	const loginUser = async (email: string, password: string): Promise<boolean> => {
 		try {
 			const { data } = await clienteAxios.post('/user/login', { email, password });
