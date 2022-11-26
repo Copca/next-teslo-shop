@@ -34,8 +34,6 @@ const LoginPage: NextPage = () => {
 	const [isShowError, setIsShowError] = useState(false);
 	const [providers, setProviders] = useState<any>({});
 
-	// console.log(providers.github.id);
-
 	useEffect(() => {
 		const obtnerProvider = async () => {
 			const prov = await getProviders();

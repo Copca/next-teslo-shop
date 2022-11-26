@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, useEffect, useReducer } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
+
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -21,7 +21,7 @@ const AUTH_INITIAL_STATE: AuthState = {
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
 	const { data, status } = useSession();
-	const router = useRouter();
+	// const router = useRouter();
 
 	// Autenticación con NextAuth
 	useEffect(() => {
@@ -32,11 +32,16 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	}, [status, data]);
 
-	// Mantenemos persistencia en la autenticación personalizada
-	// useEffect(() => {
-	// 	checkToken();
-	// }, []);
-
+	/**
+	 * Se sustituye con NextAuth
+	 * 
+	 * 
+	 
+	 // Mantenemos persistencia en la autenticación personalizada
+	 // useEffect(() => {
+	 // 	checkToken();
+	 // }, []);
+	 
 	// Mantenemos persistencia en la autenticación
 	const checkToken = async () => {
 		if (!Cookies.get('token')) return;
@@ -52,7 +57,9 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 			Cookies.remove('token');
 		}
 	};
+	*/
 
+	/*
 	// Login Personalizado se sustituye por NextAuth
 	const loginUser = async (email: string, password: string): Promise<boolean> => {
 		try {
@@ -68,6 +75,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 			return false;
 		}
 	};
+	*/
 
 	const registerUser = async (
 		name: string,
@@ -135,7 +143,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 				...state,
 
 				// Metodos
-				loginUser,
+				// loginUser,
 				registerUser,
 				logout
 			}}

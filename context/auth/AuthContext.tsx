@@ -8,7 +8,7 @@ interface ContextProps {
 	user?: IUser;
 
 	// Metodos
-	loginUser: (email: string, password: string) => Promise<boolean>;
+	// loginUser: (email: string, password: string) => Promise<boolean>;
 	registerUser: (
 		name: string,
 		email: string,
