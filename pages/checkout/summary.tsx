@@ -1,9 +1,21 @@
+import { useEffect } from 'react';
 import { NextPage } from 'next';
+import Cookies from 'js-cookie';
 
 import { ShopLayout } from '../../components/layouts';
 import { CartList, OrderConfirm } from '../../components/cart';
+import { useRouter } from 'next/router';
 
 const SummaryPage: NextPage = () => {
+	const router = useRouter();
+
+	// Negar el acceso si no hay una dirección en ShippingAddress
+	useEffect(() => {
+		if (!Cookies.get('firstName')) {
+			router.push('/checkout/address');
+		}
+	}, [router]);
+
 	return (
 		<ShopLayout tittle={'Resumen de orden'} pageDescription={'Resumen de la orden'}>
 			<div className='container'>
