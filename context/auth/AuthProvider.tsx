@@ -26,8 +26,8 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 	// Autenticación con NextAuth
 	useEffect(() => {
 		if (status === 'authenticated') {
-			console.log({ user: data.user });
-
+			// console.log({ user: data.user });
+			// Guardamos en Context la información de usuario almacenada en session
 			dispatch({ type: '[Auth] - Login', payload: data.user as IUser });
 		}
 	}, [status, data]);
