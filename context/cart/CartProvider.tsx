@@ -1,8 +1,10 @@
 import { FC, PropsWithChildren, useEffect, useReducer, useState } from 'react';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 import { CartContext, cartReducer } from './';
-import { ICartProduct, IShippingAddress } from '../../interfaces';
+import { ICartProduct, IOrder, IShippingAddress } from '../../interfaces';
+import { clienteAxios } from '../../axios';
 
 export interface CartState {
 	isLoaded: boolean;
@@ -91,7 +93,7 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 		);
 
 		// Impuestos 15%
-		const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE!);
+		const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE || 0);
 
 		const orderSummary = {
 			numberOfItems,
@@ -164,6 +166,51 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 		dispatch({ type: '[Cart] - Update ShippingAddress', payload: address });
 	};
 
+	const createOrder = async (): Promise<{ hasError: boolean; message: string }> => {
+		if (!state.shippingAddress) {
+			throw new Error('No hay dirección de entrega');
+		}
+
+		const body: IOrder = {
+			// hacemos este map por que size es obligatorio state.cart:ICartProdict[] y en IOrder es opcional
+			orderItems: state.cart.map((p) => ({
+				...p,
+				size: p.size!
+			})),
+			shippingAddress: state.shippingAddress,
+			numberOfItems: state.numberOfItems,
+			subTotal: state.subTotal,
+			tax: state.tax,
+			total: state.total,
+			isPaid: false
+		};
+
+		try {
+			const { data } = await clienteAxios.post<IOrder>('/orders', body);
+
+			// Reseteamos el cart(cookies)
+			dispatch({ type: '[Cart] - Order Complete' });
+
+			// Si todo sale bien regreso en message el _id de la orden
+			return {
+				hasError: false,
+				message: data._id!
+			};
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return {
+					hasError: true,
+					message: error.response?.data.message
+				};
+			}
+
+			return {
+				hasError: true,
+				message: 'Error no controlado, hable con el administrador'
+			};
+		}
+	};
+
 	return (
 		<CartContext.Provider
 			value={{
@@ -174,7 +221,8 @@ export const CartProvider: FC<PropsWithChildren> = ({ children }) => {
 				addProduct,
 				updateCartQuantity,
 				removeCartProduct,
-				updateShippingAddress
+				updateShippingAddress,
+				createOrder
 			}}
 		>
 			{children}

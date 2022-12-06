@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 
 import { CartContext } from '../../context';
 import { ShopLayout } from '../../components/layouts';
-import { CartList, OrderSumary } from '../../components/cart';
+import { CartList, CartOrderSumary } from '../../components/cart';
 
 const CartPage: NextPage = () => {
 	const router = useRouter();
@@ -36,7 +36,7 @@ const CartPage: NextPage = () => {
 					</div>
 
 					<div className='w-full md:w-2/5 border shadow-md rounded-md p-4'>
-						<OrderSumary />
+						<CartOrderSumary />
 					</div>
 				</div>
 			</div>

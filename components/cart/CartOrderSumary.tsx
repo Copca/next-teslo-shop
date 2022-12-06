@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { CartContext } from '../../context';
 import { divisa } from '../../utils';
 
-export const OrderSumary = () => {
+export const CartOrderSumary = () => {
 	const { numberOfItems, subTotal, tax, total } = useContext(CartContext);
 
 	return (

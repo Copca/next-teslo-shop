@@ -52,7 +52,7 @@ export const SideMenu = () => {
 									</Link>
 
 									<Link
-										href='#'
+										href={'/orders/history'}
 										className='flex items-center gap-2 hover:text-slate-300 transition-colors'
 									>
 										<TiTicket className='text-2xl' />

@@ -24,7 +24,7 @@ const orderSchema = new Schema(
 			zip: { type: String, required: true },
 			city: { type: String, required: true },
 			country: { type: String, required: true },
-			phone: { type: String, required: true }
+			phone: { type: String }
 		},
 		numberOfItems: { type: Number, required: true },
 		subTotal: { type: Number, required: true },

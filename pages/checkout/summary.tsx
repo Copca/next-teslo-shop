@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import Cookies from 'js-cookie';
 
 import { ShopLayout } from '../../components/layouts';
-import { CartList, OrderConfirm } from '../../components/cart';
+import { CartList, CheckoutSummary } from '../../components/cart';
 import { useRouter } from 'next/router';
 
 const SummaryPage: NextPage = () => {
@@ -26,8 +26,8 @@ const SummaryPage: NextPage = () => {
 						<CartList />
 					</div>
 
-					<div className='w-full md:w-2/5 border shadow-md rounded-md p-4'>
-						<OrderConfirm />
+					<div className='w-full md:w-2/5'>
+						<CheckoutSummary />
 					</div>
 				</div>
 			</div>

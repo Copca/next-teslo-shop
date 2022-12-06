@@ -5,13 +5,14 @@ import Image from 'next/image';
 import { CartContext } from '../../context';
 
 import { Counter } from '../ui';
-import { ICartProduct } from '../../interfaces';
+import { ICartProduct, IOrderItem } from '../../interfaces';
 
 interface Props {
 	editable?: boolean;
+	products?: IOrderItem[];
 }
 
-export const CartList: FC<Props> = ({ editable = false }) => {
+export const CartList: FC<Props> = ({ editable = false, products }) => {
 	const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext);
 
 	const onUpdatedQuantity = (product: ICartProduct, newQuantityValue: number) => {
@@ -20,9 +21,12 @@ export const CartList: FC<Props> = ({ editable = false }) => {
 		updateCartQuantity(product);
 	};
 
+	// Mestra los productos del state.cart o los de la DB order
+	const productsToShow = products ? products : cart;
+
 	return (
 		<>
-			{cart.map((product) => (
+			{productsToShow.map((product) => (
 				<div
 					key={product.slug + product.size}
 					className='flex flex-col items-center md:flex-row md:items-start gap-4 mb-4'
@@ -41,7 +45,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
 						</Link>
 					</div>
 
-					<div className='flex-1 flex justify-between py-4'>
+					<div className='flex-1 flex justify-evenly py-4'>
 						<div>
 							<h4 className='text-slate-800 text-lg font-bold mb-2'>
 								{product.title}
@@ -57,7 +61,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
 									currentValue={product.quantity}
 									maxValue={10}
 									updatedQuantity={(value) =>
-										onUpdatedQuantity(product, value)
+										onUpdatedQuantity(product as ICartProduct, value)
 									}
 								/>
 							) : (
@@ -74,7 +78,9 @@ export const CartList: FC<Props> = ({ editable = false }) => {
 							{editable && (
 								<button
 									className='text-blue-500 hover:text-blue-600 font-bold text-sm transition-colors'
-									onClick={() => removeCartProduct(product)}
+									onClick={() =>
+										removeCartProduct(product as ICartProduct)
+									}
 								>
 									Remover
 								</button>
