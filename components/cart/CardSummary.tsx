@@ -9,7 +9,7 @@ import { CartContext } from '../../context/cart/CartContext';
 interface Props {
 	editable?: boolean;
 	orderValues?: IOrder;
-	shippingAddress?: IShippingAddress; // infoemacion del state.cart
+	shippingAddress?: IShippingAddress; // información del state.cart
 }
 
 export const CardSummary: FC<Props> = ({
@@ -89,7 +89,7 @@ export const CardSummary: FC<Props> = ({
 				<p>{divisa.formatearDinero(summaryValues.tax)}</p>
 			</div>
 
-			<div className='flex justify-between text-lg font-bold mt-3'>
+			<div className='flex justify-between text-lg font-bold mt-3 mb-8'>
 				<p>Total:</p>
 				<p>{divisa.formatearDinero(summaryValues.total)}</p>
 			</div>

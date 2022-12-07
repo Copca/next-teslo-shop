@@ -60,7 +60,6 @@ const createOrder = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 		// Impuestos 15%
 		const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE || 0);
-
 		const backendTotal = subTotal + subTotal * taxRate;
 
 		// Nos aseguramos que los montos no fueron manipulados en el FrontEnd
@@ -71,6 +70,9 @@ const createOrder = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		// Si todo esta bien
 		const userId = session.user?._id;
 		const newOrder = new Order({ ...req.body, isPaid: false, user: userId });
+
+		// Redondeamos a 2 decimales
+		newOrder.total = Number(newOrder.total.toFixed(2));
 
 		await newOrder.save();
 		await db.disconnect();
