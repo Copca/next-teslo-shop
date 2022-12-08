@@ -23,10 +23,7 @@ const CartPage: NextPage = () => {
 	if (!isLoaded || cart.length === 0) return <></>;
 
 	return (
-		<ShopLayout
-			tittle={'Carrito'}
-			pageDescription={'Carrito de compras de la tienda'}
-		>
+		<ShopLayout title={'Carrito'} pageDescription={'Carrito de compras de la tienda'}>
 			<div className='container'>
 				<h1 className='text-2xl mb-8'>Carrito</h1>
 

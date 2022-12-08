@@ -7,7 +7,7 @@ import { ShopLayout } from '../../components/layouts';
 const EmptyPage: NextPage = () => {
 	return (
 		<ShopLayout
-			tittle={'Carrito vacio'}
+			title={'Carrito vacio'}
 			pageDescription={'No hay articulos en el carrito de compras'}
 		>
 			<div className='container flex-1 flex flex-col justify-center items-center'>

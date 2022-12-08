@@ -4,7 +4,7 @@ import { ShopLayout } from '../components/layouts/';
 const Error404: NextPage = () => {
 	return (
 		<ShopLayout
-			tittle={'Page not Found'}
+			title={'Page not Found'}
 			pageDescription={'No hay nada que mostrar aquí'}
 		>
 			<div className='container flex-1 flex flex-col justify-center items-center'>

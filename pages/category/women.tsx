@@ -15,7 +15,7 @@ const WomenPage: NextPage = () => {
 
 	return (
 		<ShopLayout
-			tittle={'Teslo-Shop - Mujeres'}
+			title={'Teslo-Shop - Mujeres'}
 			pageDescription={'Encuentre los mejores productos de Teslo para Mujeres'}
 		>
 			<div className='container'>

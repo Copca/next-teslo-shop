@@ -19,7 +19,7 @@ interface Props {
 
 const OrderPage: NextPage<Props> = ({ order }) => {
 	return (
-		<ShopLayout tittle={'Resumen de orden'} pageDescription={'Resumen de la orden'}>
+		<ShopLayout title={'Resumen de orden'} pageDescription={'Resumen de la orden'}>
 			<div className='container animate-fadeIn'>
 				<h1 className='text-2xl mb-8'>Orden {order._id}</h1>
 

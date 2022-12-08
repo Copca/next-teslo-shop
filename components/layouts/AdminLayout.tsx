@@ -5,14 +5,14 @@ import { Navbar, SideMenu } from '../ui';
 
 interface Props {
 	title: string;
-	pageDescription: string;
-	imageFullUrl?: string;
+	subTitle: string;
+	icon?: string;
 }
 
-export const ShopLayout: FC<PropsWithChildren<Props>> = ({
+export const AdminLayout: FC<PropsWithChildren<Props>> = ({
 	title,
 	pageDescription,
-	imageFullUrl,
+	icon,
 	children
 }) => {
 	return (

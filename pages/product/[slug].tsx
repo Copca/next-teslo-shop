@@ -56,7 +56,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 	};
 
 	return (
-		<ShopLayout tittle={product.title} pageDescription={product.description}>
+		<ShopLayout title={product.title} pageDescription={product.description}>
 			<div className='container flex gap-8 text-slate-800'>
 				<div className='w-3/5'>
 					<ProductSlide images={product.images} />

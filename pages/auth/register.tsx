@@ -53,7 +53,7 @@ const RegisterPage: NextPage = () => {
 	};
 
 	return (
-		<AuthLayout tittle={'Crear cuenta'}>
+		<AuthLayout title={'Crear cuenta'}>
 			<div className='container'>
 				<div className='max-w-lg mx-auto bg-white border shadow rounded-md p-8'>
 					<h1 className='text-2xl font-bold mb-8'>Crear cuenta</h1>

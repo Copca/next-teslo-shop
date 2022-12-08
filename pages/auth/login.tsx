@@ -77,7 +77,7 @@ const LoginPage: NextPage = () => {
 	};
 
 	return (
-		<AuthLayout tittle={'Ingresar'}>
+		<AuthLayout title={'Ingresar'}>
 			<div className='container'>
 				<div className='max-w-lg mx-auto bg-white border shadow rounded-md p-8'>
 					<h1 className='text-2xl font-bold mb-8'>Iniciar Sesión</h1>

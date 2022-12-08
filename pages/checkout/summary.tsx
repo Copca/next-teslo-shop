@@ -17,7 +17,7 @@ const SummaryPage: NextPage = () => {
 	}, [router]);
 
 	return (
-		<ShopLayout tittle={'Resumen de orden'} pageDescription={'Resumen de la orden'}>
+		<ShopLayout title={'Resumen de orden'} pageDescription={'Resumen de la orden'}>
 			<div className='container'>
 				<h1 className='text-2xl mb-8'>Resumen de la orden</h1>
 

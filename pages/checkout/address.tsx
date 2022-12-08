@@ -10,7 +10,7 @@ import { FormAddress } from '../../components/cart';
 const AddressPage: NextPage = () => {
 	return (
 		<ShopLayout
-			tittle={'Dirección'}
+			title={'Dirección'}
 			pageDescription={'Confirmar dirección del destino'}
 		>
 			<div className='container'>

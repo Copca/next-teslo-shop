@@ -60,7 +60,7 @@ const HistoryPage: NextPage<Props> = ({ orders }) => {
 
 	return (
 		<ShopLayout
-			tittle={'Historial de ordenes'}
+			title={'Historial de ordenes'}
 			pageDescription={'Historial de ordenes del cliente'}
 		>
 			<div className='container'>
