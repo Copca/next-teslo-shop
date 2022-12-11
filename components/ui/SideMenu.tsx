@@ -113,7 +113,7 @@ export const SideMenu = () => {
 								<h6 className='text-xl'>Admin Panel</h6>
 
 								<Link
-									href='#'
+									href='/admin'
 									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
 								>
 									<MdOutlineDashboard className='text-2xl' />
@@ -129,7 +129,7 @@ export const SideMenu = () => {
 								</Link>
 
 								<Link
-									href='#'
+									href='/admin/orders'
 									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
 								>
 									<TiTicket className='text-2xl' />
@@ -137,7 +137,7 @@ export const SideMenu = () => {
 								</Link>
 
 								<Link
-									href='#'
+									href='/admin/users'
 									className='flex items-center gap-2 hover:text-slate-300 transition-colors'
 								>
 									<FaUsers className='text-2xl' />

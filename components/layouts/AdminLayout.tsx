@@ -1,40 +1,35 @@
 import { FC, PropsWithChildren } from 'react';
-import Head from 'next/head';
 
 import { Navbar, SideMenu } from '../ui';
+import { AdminNavbar } from '../admin';
 
 interface Props {
 	title: string;
 	subTitle: string;
-	icon?: string;
+	icon?: JSX.Element;
 }
 
 export const AdminLayout: FC<PropsWithChildren<Props>> = ({
 	title,
-	pageDescription,
+	subTitle,
 	icon,
 	children
 }) => {
 	return (
 		<div className='min-h-screen flex flex-col'>
-			<Head>
-				<title>{title}</title>
-				<meta name='description' content={pageDescription} />
+			<AdminNavbar />
 
-				<meta name='og:tittle' content={title} />
-				<meta name='og:description' content={pageDescription} />
-				{imageFullUrl && <meta name='og:image' content={imageFullUrl} />}
-			</Head>
+			<div className='container mb-8'>
+				<h1 className='flex items-center text-3xl font-bold'>
+					{icon} {title}
+				</h1>
 
-			<Navbar />
+				<h2 className='text-xl'>{subTitle}</h2>
+			</div>
 
-			{/* TODO: Sidebar */}
-
-			<main className='flex-1 flex flex-col'>{children}</main>
+			<main className='flex-1 flex flex-col animate-fadeIn'>{children}</main>
 
 			<SideMenu />
-
-			<footer>{/* TODO: Footer */}</footer>
 		</div>
 	);
 };
