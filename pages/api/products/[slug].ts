@@ -34,6 +34,13 @@ const getProductBySlug = async (req: NextApiRequest, res: NextApiResponse<Data>)
 			return res.status(404).json({ message: 'Producto no encontrado' });
 		}
 
+		// Retorna la imagen guardada en Cloudinary o la del FileSystem
+		product.images = product.images.map((img) => {
+			return img.includes('https')
+				? img
+				: `${process.env.HOST_NAME}products/${img}`;
+		});
+
 		return res.status(200).json(product);
 	} catch (error) {
 		console.log(error);

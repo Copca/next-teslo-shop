@@ -35,7 +35,7 @@ export const CartList: FC<Props> = ({ editable = false, products }) => {
 						{/* TODO: Leevar a la página del prouducto */}
 						<Link href={`/product/${product.slug}`}>
 							<Image
-								src={`/products/${product.image}`}
+								src={product.image}
 								alt={product.title}
 								width={200}
 								height={200}

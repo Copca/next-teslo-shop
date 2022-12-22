@@ -8,3 +8,4 @@ export * from './InputSearch';
 export * from './Loading';
 export * from './Navbar';
 export * from './SideMenu';
+export * from './AdminInput';

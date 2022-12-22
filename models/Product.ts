@@ -3,7 +3,10 @@ import { IProduct } from '../interfaces';
 
 const productSchema = new Schema(
 	{
-		description: { type: String, required: true },
+		description: {
+			type: String,
+			required: [true, 'La descripción es obligatoria']
+		},
 		images: [{ type: String }],
 		inStock: { type: Number, required: true, default: 0 },
 		price: { type: Number, required: true, default: 0 },
@@ -18,7 +21,7 @@ const productSchema = new Schema(
 		],
 		slug: { type: String, required: true, unique: true },
 		tags: [{ type: String }],
-		title: { type: String, required: true },
+		title: { type: String, required: [true, 'El título es requerido'] },
 		type: {
 			type: String,
 			enum: {

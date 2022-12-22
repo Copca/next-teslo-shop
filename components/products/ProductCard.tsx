@@ -28,11 +28,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
 
 				<button data-mdb-ripple='true' className='relative'>
 					<Image
-						src={
-							isHovered
-								? `/products/${product.images[0]}`
-								: `/products/${product.images[1]}`
-						}
+						src={isHovered ? product.images[0] : product.images[1]}
 						width={300}
 						height={300}
 						alt={`imagen ${product.title}`}

@@ -38,7 +38,18 @@ const getProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			.lean();
 		await db.disconnect();
 
-		return res.status(200).json(products);
+		// Retorna la imagen guardada en Cloudinary o la del FileSystem
+		const updatedProducts = products.map((product) => {
+			product.images = product.images.map((img) => {
+				return img.includes('https')
+					? img
+					: `${process.env.HOST_NAME}products/${img}`;
+			});
+
+			return product;
+		});
+
+		return res.status(200).json(updatedProducts);
 	} catch (error) {
 		console.log(error);
 

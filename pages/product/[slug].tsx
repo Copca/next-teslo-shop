@@ -1,9 +1,12 @@
 /**
  * Esta página dinámica podriamos hidratarla con Client-Side-Renderig usando SWR o una peticion Fetch con useEffect 	pero perderiamos información para el SEO.
  * Por lo tanto sería mejor el Server Side Rendering - SSR el inconveniente es que se genera la página en cada petición
- * La mejor opción es genera SSG Static Site Generation con ISR (reavalidate) usando GetStaticPaths y GetStaticProps
- * Esta página se genera en buid time
+ * La mejor opción es generarla (estaticamente) con SSG Static Site Generation con ISR (reavalidate) usando GetStaticPaths y GetStaticProps
+ *
+ * Esta página se genera estaticamente en buid time si es reqierida en produccion se gera con ISR(revalidate) cada 24hrs, evitando que se genere dinamicamente con cada request(petición)
+ *
  */
+
 import { useState, useContext } from 'react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -138,7 +141,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		props: {
 			product
 		},
-		revalidate: 86400 // 24hrs
+		revalidate: 86400 // 24hrs, tiempo en que genera autamaticamente las páginas estaticas
 	};
 };
 
